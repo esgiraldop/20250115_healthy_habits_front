@@ -20,7 +20,6 @@ export class HabitsRepository implements HabitsInterface {
           habits.push(habit.rows.item(i));
         }
       });
-      console.log('The items are: ', habits);
       return habits;
     } catch (error) {
       console.log('ERROR: ', habits);

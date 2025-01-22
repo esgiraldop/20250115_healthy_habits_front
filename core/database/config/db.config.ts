@@ -28,5 +28,10 @@ export let sqliteDb: SQLiteDatabase;
 
 export const initializeDatabase = async () => {
   sqliteDb = await getDBConnection();
-  () => sqliteDb.transaction(tx => createHabitsTable(tx));
+  await sqliteDb.transaction(tx => createHabitsTable(tx));
+  // console.log('Habits table created sucessfully');
+  // console.log(
+  //   'habits table is: ',
+  //   await sqliteDb.executeSql(`SELECT * FROM habits`),
+  // );
 };

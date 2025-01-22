@@ -6,12 +6,13 @@
  */
 
 import {NavigationContainer} from '@react-navigation/native';
-import React from 'react';
-import {ScrollView, StatusBar, StyleSheet, useColorScheme} from 'react-native';
+import React, {useEffect} from 'react';
+import {StatusBar, StyleSheet, useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {StackNavigator} from './src/components/common/stack-navigator.component';
+import {initializeDatabase} from './core/database/config/db.config';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -19,6 +20,15 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  useEffect(() => {
+    async function openSqliteDb() {
+      await initializeDatabase();
+    }
+
+    openSqliteDb();
+    return () => openSqliteDb();
+  }, []);
 
   return (
     <SafeAreaProvider style={backgroundStyle}>
