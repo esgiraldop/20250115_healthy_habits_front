@@ -9,6 +9,7 @@ export enum RepeatsEvery_unit_enum {
 }
 
 export interface Habit {
+  id: number;
   name: string;
   created_at?: Date;
   init_hour: number;

@@ -1,8 +1,8 @@
-import {enablePromise, SQLiteDatabase} from 'react-native-sqlite-storage';
+import {SQLiteDatabase, Transaction} from 'react-native-sqlite-storage';
 
 export const tableName = 'habits';
 
-export const createTable = async (db: SQLiteDatabase) => {
+export const createHabitsTable = async (db: Transaction | SQLiteDatabase) => {
   // create table if not exists
   const query = `CREATE TABLE IF NOT EXISTS ${tableName}(
           value TEXT NOT NULL
@@ -10,5 +10,3 @@ export const createTable = async (db: SQLiteDatabase) => {
 
   await db.executeSql(query);
 };
-
-enablePromise(true);

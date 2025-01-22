@@ -1,8 +1,9 @@
 import {Habit} from '../../domain/entities/habits/entities/habits.entity';
+import {HabitRequest} from '../../domain/entities/habits/request/habits.request';
 import {HabitsInterface} from '../../domain/interfaces/habits.interface';
-import {sqlitePool} from '../config/db.config';
+import {sqliteDb} from '../../database/config/db.config';
 
-export class HabitRepository implements HabitsInterface {
+export class HabitsRepository implements HabitsInterface {
   tableName: string;
   constructor() {
     this.tableName = 'habits';
@@ -11,10 +12,10 @@ export class HabitRepository implements HabitsInterface {
   async getAll(): Promise<Habit[]> {
     const habits: Habit[] = [];
     try {
-      const response = await sqlitePool.executeSql(
+      const response = await sqliteDb.executeSql(
         `SELECT * FROM ${this.tableName}`,
       );
-      response.forEach(habit => {
+      response.forEach((habit: any) => {
         for (let i = 0; i < habit.rows.length; i++) {
           habits.push(habit.rows.item(i));
         }
@@ -27,9 +28,9 @@ export class HabitRepository implements HabitsInterface {
     }
   }
 
-  async create(habit: Habit): Promise<null> {
+  async create(habit: HabitRequest): Promise<null> {
     try {
-      sqlitePool.executeSql(
+      sqliteDb.executeSql(
         `INSERT OR REPLACE INTO ${this.tableName}(created_at, init_hour, end_hour, repeatsEvery, repeatsEvery_unit, repeatsNum, description) VALUES (NOW(), ?, ?, ?, ?, ?, ?)`,
         [
           habit.init_hour,
