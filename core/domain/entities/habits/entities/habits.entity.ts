@@ -12,6 +12,7 @@ export interface Habit {
   id: number;
   name: string;
   created_at?: Date;
+  date: Date;
   init_hour: number;
   end_hour: number;
   repeatsEvery: number;

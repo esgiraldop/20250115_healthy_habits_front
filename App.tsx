@@ -12,7 +12,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {StackNavigator} from './src/components/common/stack-navigator.component';
-import {initializeDatabase} from './core/database/config/db.config';
+import {initializeDatabase} from './config/db/config/db.config';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';

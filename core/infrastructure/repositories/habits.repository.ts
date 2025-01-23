@@ -1,7 +1,7 @@
 import {Habit} from '../../domain/entities/habits/entities/habits.entity';
 import {HabitRequest} from '../../domain/entities/habits/request/habits.request';
 import {HabitsInterface} from '../../domain/interfaces/habits.interface';
-import {sqliteDb} from '../../database/config/db.config';
+import {sqliteDb} from '../../../config/db/config/db.config';
 
 export class HabitsRepository implements HabitsInterface {
   tableName: string;
