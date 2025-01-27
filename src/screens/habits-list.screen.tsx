@@ -27,6 +27,14 @@ export const HabitsListScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Button
+        title="This button takes to habits calendar"
+        onPress={() => navigation.navigate('HabitsCalendar')}
+      />
+      <Button
+        title="This button takes to create a habit form"
+        onPress={() => navigation.navigate('CreateHabit')}
+      />
       {isHabitLoading ? (
         <View>
           <Text>Habits loading...</Text>
@@ -38,12 +46,6 @@ export const HabitsListScreen = () => {
       ) : (
         <View>
           <FlatList
-            ListHeaderComponent={
-              <Button
-                title="This button takes to habits calendar"
-                onPress={() => navigation.navigate('HabitsCalendar')}
-              />
-            }
             data={habits}
             renderItem={({item}) => <Item title={item.name} />}
             keyExtractor={item => item.id.toString()}
