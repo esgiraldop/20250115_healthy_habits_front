@@ -1,4 +1,7 @@
+import {useNavigation} from '@react-navigation/native';
+// eslint-disable-next-line import/named
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Formik} from 'formik';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -8,12 +11,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {RootStackParamList} from '../interfaces';
-import {useNavigation} from '@react-navigation/native';
-import {Formik} from 'formik';
-import {freqUnitsCategories, ICreateHabit} from '../interfaces/habit.interface';
+
 import {RepeatsEvery_unit_enum} from '../../core/domain/entities/habits/entities/habits.entity';
 import {DropdownCategories} from '../components/common/dropdown-categories.component';
+import {RootStackParamList} from '../interfaces';
+import {freqUnitsCategories, ICreateHabit} from '../interfaces/habit.interface';
 import {habitSchema} from '../schemas/habit.schema';
 
 type CreateHabitScreenProp = NativeStackNavigationProp<
