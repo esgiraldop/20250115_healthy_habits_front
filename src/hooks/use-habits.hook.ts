@@ -1,7 +1,8 @@
-import {useCallback, useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {IHabit} from '../interfaces/habit.interface';
+import {useCallback, useState} from 'react';
+
 import {HabitsController} from '../../core/infrastructure/controllers/habits.controller';
+import {IHabit} from '../interfaces/habit.interface';
 
 export function useHabits() {
   const [habits, setHabits] = useState<IHabit[]>([]);

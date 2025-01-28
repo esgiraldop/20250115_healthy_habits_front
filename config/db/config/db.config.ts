@@ -4,6 +4,7 @@ import {
   SQLError,
   SQLiteDatabase,
 } from 'react-native-sqlite-storage';
+
 import {createHabitsTable} from '../models/habits.model';
 
 enablePromise(true);

@@ -1,9 +1,11 @@
+import {useNavigation} from '@react-navigation/native';
+// eslint-disable-next-line import/named
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {Button, FlatList, Text, View, StyleSheet} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../interfaces';
+
 import {useHabits} from '../hooks/use-habits.hook';
+import {RootStackParamList} from '../interfaces';
 
 type HabitsListScreenProp = NativeStackNavigationProp<
   RootStackParamList,

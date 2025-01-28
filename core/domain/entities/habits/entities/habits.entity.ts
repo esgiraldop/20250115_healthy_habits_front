@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */ // So the enum is not flag as "unused var"
 export enum RepeatsEvery_unit_enum {
   s = 's', // Seconds
   m = 'm', // Minutes

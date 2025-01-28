@@ -1,11 +1,12 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
+
 import {RootStackParamList} from '../../interfaces';
-import {HabitsListScreen} from '../../screens/habits-list.screen';
-import {HabitsCalendarScreen} from '../../screens/habits-calendar.screen';
-import {HabitsSummaryScreen} from '../../screens/habits-summary.screen';
 import {CreateHabitScreen} from '../../screens/create-habit.screen';
 import {EditHabitScreen} from '../../screens/edit-habit.screen';
+import {HabitsCalendarScreen} from '../../screens/habits-calendar.screen';
+import {HabitsListScreen} from '../../screens/habits-list.screen';
+import {HabitsSummaryScreen} from '../../screens/habits-summary.screen';
 
 export const StackNavigator = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();

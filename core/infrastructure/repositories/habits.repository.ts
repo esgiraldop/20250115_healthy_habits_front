@@ -1,7 +1,11 @@
+// 1. External modules (third-party libraries)
+import {ResultSet} from 'react-native-sqlite-storage';
+
+// 2. Internal modules (project-specific imports)
+import {sqliteDb} from '../../../config/db/config/db.config';
 import {Habit} from '../../domain/entities/habits/entities/habits.entity';
 import {HabitRequest} from '../../domain/entities/habits/request/habits.request';
 import {HabitsInterface} from '../../domain/interfaces/habits.interface';
-import {sqliteDb} from '../../../config/db/config/db.config';
 
 export class HabitsRepository implements HabitsInterface {
   tableName: string;
@@ -15,7 +19,7 @@ export class HabitsRepository implements HabitsInterface {
       const response = await sqliteDb.executeSql(
         `SELECT * FROM ${this.tableName}`,
       );
-      response.forEach((habit: any) => {
+      response.forEach((habit: ResultSet) => {
         for (let i = 0; i < habit.rows.length; i++) {
           habits.push(habit.rows.item(i));
         }
