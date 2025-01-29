@@ -16,6 +16,7 @@ module.exports = {
   ignorePatterns: ['node_modules/'],
   rules: {
     //Docs --> https://eslint.org/docs/latest/rules/
+    'import/no-commonjs': 'off',
     quotes: ['error', 'single'],
     'no-console': 'off',
     'no-unused-vars': 'error',
