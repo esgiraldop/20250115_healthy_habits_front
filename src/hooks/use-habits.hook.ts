@@ -7,6 +7,7 @@ import {IHabit} from '../interfaces/habit.interface';
 export function useHabits() {
   const [habits, setHabits] = useState<IHabit[]>([]);
   const [isHabitLoading, setIsHabitLoading] = useState<boolean | null>(null);
+  const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -22,12 +23,11 @@ export function useHabits() {
             setIsHabitLoading(false);
           }
         }
-        console.log(habits);
       }
 
       getHabitsInfo();
       return () => (isMounted = false);
-    }, []),
+    }, [isDeleted]),
   );
 
   return {
@@ -35,5 +35,6 @@ export function useHabits() {
     setHabits,
     isHabitLoading,
     setIsHabitLoading,
+    setIsDeleted,
   };
 }

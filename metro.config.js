@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 // eslint-disable-next-line
 const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 /**

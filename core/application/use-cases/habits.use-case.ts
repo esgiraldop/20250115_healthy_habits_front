@@ -14,3 +14,10 @@ export const createHabit = async (
 ): Promise<null> => {
   return await habitsRepository.create(data);
 };
+
+export const deleteHabit = async (
+  habitsRepository: HabitsRepository,
+  habitId: string,
+): Promise<null> => {
+  return await habitsRepository.delete(habitId);
+};

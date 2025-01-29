@@ -1,5 +1,6 @@
 import {
   createHabit,
+  deleteHabit,
   getAllHabits,
 } from '../../application/use-cases/habits.use-case';
 import {Habit} from '../../domain/entities/habits/entities/habits.entity';
@@ -15,5 +16,9 @@ export class HabitsController {
 
   static async create(data: HabitRequest): Promise<null> {
     return await createHabit(habitsRepository, data);
+  }
+
+  static async delete(habitId: string): Promise<null> {
+    return await deleteHabit(habitsRepository, habitId);
   }
 }
