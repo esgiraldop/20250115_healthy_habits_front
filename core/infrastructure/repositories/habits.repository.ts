@@ -19,11 +19,13 @@ export class HabitsRepository implements HabitsInterface {
       const response = await sqliteDb.executeSql(
         `SELECT * FROM ${this.tableName}`,
       );
+      console.log('response: ', response);
       response.forEach((habit: ResultSet) => {
         for (let i = 0; i < habit.rows.length; i++) {
           habits.push(habit.rows.item(i));
         }
       });
+      console.log('The habits obtained from the database are: ', habits);
       return habits;
     } catch (error) {
       console.log('ERROR: ', habits);
@@ -32,10 +34,13 @@ export class HabitsRepository implements HabitsInterface {
   }
 
   async create(habit: HabitRequest): Promise<null> {
+    console.log('habit from repo: ', habit);
     try {
-      sqliteDb.executeSql(
-        `INSERT OR REPLACE INTO ${this.tableName}(created_at, init_hour, end_hour, repeatsEvery, repeatsEvery_unit, repeatsNum, description) VALUES (NOW(), ?, ?, ?, ?, ?, ?)`,
+      await sqliteDb.executeSql(
+        `INSERT OR REPLACE INTO ${this.tableName}(name, created_at, date, init_hour, end_hour, repeatsEvery, repeatsEvery_unit, repeatsNum, description) VALUES (?,current_timestamp, ?, ?, ?, ?, ?, ?, ?)`,
         [
+          habit.name,
+          habit.date,
           habit.init_hour,
           habit.end_hour,
           habit.repeatsEvery,
@@ -47,6 +52,7 @@ export class HabitsRepository implements HabitsInterface {
       console.log(`Habit ${habit} inserted sucessfully`);
       return null;
     } catch (error) {
+      console.log(`Error inserting the habit: ${JSON.stringify(error)}`);
       throw new Error(`Error inserting the habit: ${error}`);
     }
   }

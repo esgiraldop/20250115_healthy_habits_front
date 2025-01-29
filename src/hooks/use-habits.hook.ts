@@ -10,19 +10,23 @@ export function useHabits() {
 
   useFocusEffect(
     useCallback(() => {
+      let isMounted = true;
       async function getHabitsInfo() {
-        setIsHabitLoading(true);
-        const habitsInfo = await HabitsController.getAll();
-        if (habitsInfo.length > 0) {
-          setHabits(habitsInfo);
-          setIsHabitLoading(false);
-        } else {
-          setIsHabitLoading(false);
+        if (isMounted) {
+          setIsHabitLoading(true);
+          const habitsInfo = await HabitsController.getAll();
+          if (habitsInfo.length > 0) {
+            setHabits(habitsInfo);
+            setIsHabitLoading(false);
+          } else {
+            setIsHabitLoading(false);
+          }
         }
+        console.log(habits);
       }
 
       getHabitsInfo();
-      return () => getHabitsInfo();
+      return () => (isMounted = false);
     }, []),
   );
 

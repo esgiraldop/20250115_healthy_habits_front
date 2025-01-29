@@ -12,7 +12,6 @@ export const DropdownCategories = <T extends Record<string, string>>({
   placeholder,
 }: IDropdownCategories<T>): React.JSX.Element => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
-
   const dropdownData = Object.entries(categories).map(([val, label]) => ({
     label,
     val,
@@ -52,7 +51,7 @@ export const DropdownCategories = <T extends Record<string, string>>({
         search
         maxHeight={300}
         labelField="label"
-        valueField="value"
+        valueField="val"
         placeholder={!isFocus ? placeholder : '...'}
         searchPlaceholder="Search..."
         value={value}
@@ -63,7 +62,7 @@ export const DropdownCategories = <T extends Record<string, string>>({
         }}
         onChange={item => {
           setIsFocus(false);
-          onChange(item.value);
+          onChange(item.val);
         }}
       />
     </View>

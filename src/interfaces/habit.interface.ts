@@ -2,10 +2,11 @@ import {
   Habit,
   RepeatsEvery_unit_enum,
 } from '../../core/domain/entities/habits/entities/habits.entity';
+import {HabitRequest} from '../../core/domain/entities/habits/request/habits.request';
 
 export interface IHabit extends Habit {}
 
-export interface ICreateHabit extends Omit<Habit, 'id' | 'created_at'> {}
+export interface ICreateHabit extends HabitRequest {}
 
 export interface IUpdateHabit extends Partial<IHabit> {}
 
