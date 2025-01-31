@@ -3,7 +3,7 @@
  */
 
 import 'react-native';
-import {it} from '@jest/globals';
+import {it, jest} from '@jest/globals';
 import React from 'react';
 import renderer from 'react-test-renderer';
 
@@ -13,6 +13,16 @@ import App from '../App';
 
 // Note: test renderer must be required after react-native.
 
-it('renders correctly', () => {
-  renderer.create(<App />);
+// Mock the database initialization
+jest.mock('../config/db/config/db.config', () => ({
+  initializeDatabase: jest.fn(() => Promise.resolve()),
+  sqliteDb: {
+    executeSql: jest.fn(() => Promise.resolve([{rows: {item: jest.fn()}}])),
+    transaction: jest.fn(),
+  },
+}));
+
+it('renders correctly', async () => {
+  const tree = renderer.create(<App />).toJSON();
+  expect(tree).toBeTruthy();
 });

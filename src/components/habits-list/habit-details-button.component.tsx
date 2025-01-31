@@ -19,7 +19,6 @@ export const HabitDetailsButton: React.FC<IHabitDetailsButton> = ({
   setIsDeleted,
 }) => {
   const [isHabitDeleting, setIsHabitDeleting] = useState<boolean | null>(null);
-
   const handleDelete = () => {
     async function deleteHabit() {
       setIsHabitDeleting(true);
