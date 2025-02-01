@@ -2,9 +2,8 @@ name: Run Unit Tests and Lint Files
 "on": 
   push:
     branches:
-      - 'features/*'
-    branches-ignore:
-      - 'features/slint'
+      - 'features/**'
+      - '!features/slint'
 
 jobs:
   unit_test-lint:
