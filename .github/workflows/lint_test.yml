@@ -4,8 +4,38 @@ jobs:
   unit_test-lint:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Check out the repository
       - uses: actions/checkout@v2
-      - run: |
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16' # Use the same version as your local environment
+
+      # Step 3: Debug Node.js version
+      - name: Debug Node.js version
+        run: node -v
+
+      # Step 4: Debug npm version
+      - name: Debug npm version
+        run: npm -v
+
+      # Step 5: List installed dependencies
+      - name: List installed dependencies
+        run: npm list --depth=0
+
+      # Step 6: Print environment variables
+      - name: Print environment variables
+        run: printenv
+
+      # Step 7: List files in the repository
+      - name: List files in the repository
+        run: ls -R
+
+      # Step 8: Install dependencies, build, test and lint
+      - name: Dependencies, build, test and lint
+        run: |
               npm ci
               #npm run build
               npm run test
