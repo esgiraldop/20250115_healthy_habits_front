@@ -34,10 +34,9 @@ export class HabitsRepository implements HabitsInterface {
   }
 
   async create(habit: HabitRequest): Promise<null> {
-    console.log('habit from repo: ', habit);
     try {
       await sqliteDb.executeSql(
-        `INSERT OR REPLACE INTO ${this.tableName}(name, created_at, date, init_hour, end_hour, repeatsEvery, repeatsEvery_unit, repeatsNum, description) VALUES (?,current_timestamp, ?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT ${this.tableName}(name, created_at, date, init_hour, end_hour, repeatsEvery, repeatsEvery_unit, repeatsNum, description) VALUES (?,current_timestamp, ?, ?, ?, ?, ?, ?, ?)`,
         [
           habit.name,
           habit.date,
@@ -53,6 +52,21 @@ export class HabitsRepository implements HabitsInterface {
       return null;
     } catch (error) {
       console.log(`Error inserting the habit: ${JSON.stringify(error)}`);
+      throw new Error(`Error inserting the habit: ${error}`);
+    }
+  }
+
+  async delete(habitId: string): Promise<null> {
+    try {
+      await sqliteDb.executeSql(`DELETE FROM ${this.tableName} WHERE id = ?;`, [
+        habitId,
+      ]);
+      console.log('Habit with id deleted sucessfully');
+      return null;
+    } catch (error) {
+      console.log(
+        `There was an error deleting the habit: ${JSON.stringify(error)}}`,
+      );
       throw new Error(`Error inserting the habit: ${error}`);
     }
   }

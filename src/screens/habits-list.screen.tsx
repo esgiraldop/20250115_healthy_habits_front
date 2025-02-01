@@ -4,6 +4,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {Button, FlatList, Text, View, StyleSheet} from 'react-native';
 
+import {HabitDetailsButton} from '../components/habits-list/habit-details-button.component';
 import {useHabits} from '../hooks/use-habits.hook';
 import {RootStackParamList} from '../interfaces';
 
@@ -12,20 +13,10 @@ type HabitsListScreenProp = NativeStackNavigationProp<
   'HabitsList'
 >;
 
-interface HabitItemProps {
-  title: string;
-}
-
-const Item: React.FC<HabitItemProps> = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
-
 export const HabitsListScreen = () => {
   const navigation = useNavigation<HabitsListScreenProp>();
 
-  const {habits, isHabitLoading} = useHabits();
+  const {habits, isHabitLoading, setIsDeleted} = useHabits();
 
   return (
     <View style={styles.container}>
@@ -49,7 +40,12 @@ export const HabitsListScreen = () => {
         <View>
           <FlatList
             data={habits}
-            renderItem={({item}) => <Item title={item.name} />}
+            renderItem={({item}) => (
+              <HabitDetailsButton
+                habitData={item}
+                setIsDeleted={setIsDeleted}
+              />
+            )}
             keyExtractor={item => item.id.toString()}
           />
         </View>
@@ -63,21 +59,5 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#f5f5f5',
-  },
-  item: {
-    padding: 16,
-    marginVertical: 8,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    elevation: 2,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  textError: {
-    color: 'red',
-    fontSize: 16,
-    textAlign: 'center',
   },
 });
