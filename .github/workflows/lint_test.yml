@@ -21,22 +21,25 @@ jobs:
       - name: Debug npm version
         run: npm -v
 
-      # Step 5: List installed dependencies
+      # Step 5: Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+     # Step 6: List installed dependencies
       - name: List installed dependencies
         run: npm list --depth=0
 
-      # Step 6: Print environment variables
+      # Step 7: Print environment variables
       - name: Print environment variables
         run: printenv
 
-      # Step 7: List files in the repository
+      # Step 8: List files in the repository
       - name: List files in the repository
         run: ls -R
 
-      # Step 8: Install dependencies, build, test and lint
-      - name: Dependencies, build, test and lint
+      # Step 9: Install dependencies, build, test and lint
+      - name: build, test and lint
         run: |
-              npm ci
               #npm run build
               npm run test
               npm run lint
