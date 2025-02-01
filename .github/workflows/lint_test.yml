@@ -4,6 +4,7 @@ name: Run Unit Tests and Lint Files
     branches:
       - 'features/**'
       - '!features/slint'
+  workflow_call:
 
 jobs:
   unit_test-lint:
