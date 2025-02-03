@@ -16,6 +16,10 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {initializeDatabase} from './config/db/config/db.config';
 import {StackNavigator} from './src/components/common/stack-navigator.component';
 
+const a = 1;
+const b = 2;
+const c = 3;
+
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
