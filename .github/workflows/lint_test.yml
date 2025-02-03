@@ -1,6 +1,6 @@
 name: Run Unit Tests and Lint Files
-"on": 
-  push:
+'on':
+  pull_request:
     branches:
       - 'features/**'
       - '!features/slint'
@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-     # Step 6: List installed dependencies
+      # Step 6: List installed dependencies
       - name: List installed dependencies
         run: npm list --depth=0
 
@@ -46,7 +46,6 @@ jobs:
       # Step 9: Install dependencies, build, test and lint
       - name: build, test and lint
         run: |
-              #npm run build
-              npm run test
-              npm run lint
-
+          #npm run build
+          npm run test
+          npm run lint
