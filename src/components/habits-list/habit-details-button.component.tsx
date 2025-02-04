@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -11,26 +11,24 @@ import {IHabit} from '../../interfaces/habit.interface';
 
 interface IHabitDetailsButton {
   habitData: IHabit;
-  setIsDeleted: (isDeleted: boolean) => void;
+  isHabitDeleting: boolean | null;
+  setIsHabitDeleting: (isHabitDeleting: boolean | null) => void;
 }
 
 export const HabitDetailsButton: React.FC<IHabitDetailsButton> = ({
   habitData,
-  setIsDeleted,
+  isHabitDeleting,
+  setIsHabitDeleting,
 }) => {
-  const [isHabitDeleting, setIsHabitDeleting] = useState<boolean | null>(null);
   const handleDelete = () => {
     async function deleteHabit() {
       setIsHabitDeleting(true);
       await HabitsController.delete(String(habitData.id));
-      setIsDeleted(true);
-      setIsHabitDeleting(false);
-      setIsDeleted(false);
     }
 
     deleteHabit();
   };
-  // Testing github actions
+
   return (
     <>
       <TouchableOpacity style={[styles.item, styles.horizontalAlign]}>

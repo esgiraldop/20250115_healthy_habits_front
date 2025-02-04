@@ -7,27 +7,34 @@ import {IHabit} from '../interfaces/habit.interface';
 export function useHabits() {
   const [habits, setHabits] = useState<IHabit[]>([]);
   const [isHabitLoading, setIsHabitLoading] = useState<boolean | null>(null);
-  // const [isDeleted, setIsDeleted] = useState<boolean>(false);
+  const [isHabitDeleting, setIsHabitDeleting] = useState<boolean | null>(null);
+
+  const getHabitsInfo = async (isMounted: boolean) => {
+    if (isMounted || isHabitDeleting) {
+      setIsHabitLoading(true);
+      const habitsInfo = await HabitsController.getAll();
+      if (habitsInfo.length > 0) {
+        setHabits(habitsInfo);
+        setIsHabitLoading(false);
+      } else {
+        setIsHabitLoading(false);
+      }
+      setIsHabitDeleting(false);
+    }
+  };
 
   useFocusEffect(
     useCallback(() => {
       let isMounted = true;
-      async function getHabitsInfo() {
-        if (isMounted) {
-          setIsHabitLoading(true);
-          const habitsInfo = await HabitsController.getAll();
-          if (habitsInfo.length > 0) {
-            setHabits(habitsInfo);
-            setIsHabitLoading(false);
-          } else {
-            setIsHabitLoading(false);
-          }
-        }
-      }
+      console.log('\n\nisMounted: ', isMounted);
+      console.log('isHabitDeleting: ', isHabitDeleting);
+      console.log('habits: ', habits);
+      console.log('\n\n');
 
-      getHabitsInfo();
+      getHabitsInfo(isMounted);
       return () => (isMounted = false);
-    }, []),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isHabitDeleting]),
   );
 
   return {
@@ -35,6 +42,7 @@ export function useHabits() {
     setHabits,
     isHabitLoading,
     setIsHabitLoading,
-    // setIsDeleted,
+    isHabitDeleting,
+    setIsHabitDeleting,
   };
 }

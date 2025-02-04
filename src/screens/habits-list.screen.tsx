@@ -16,7 +16,8 @@ type HabitsListScreenProp = NativeStackNavigationProp<
 export const HabitsListScreen = () => {
   const navigation = useNavigation<HabitsListScreenProp>();
 
-  const {habits, isHabitLoading, setIsDeleted} = useHabits();
+  const {habits, isHabitLoading, isHabitDeleting, setIsHabitDeleting} =
+    useHabits();
 
   return (
     <View style={styles.container}>
@@ -43,7 +44,8 @@ export const HabitsListScreen = () => {
             renderItem={({item}) => (
               <HabitDetailsButton
                 habitData={item}
-                setIsDeleted={setIsDeleted}
+                isHabitDeleting={isHabitDeleting}
+                setIsHabitDeleting={setIsHabitDeleting}
               />
             )}
             keyExtractor={item => item.id.toString()}

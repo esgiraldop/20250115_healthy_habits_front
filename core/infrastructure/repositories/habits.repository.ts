@@ -19,13 +19,11 @@ export class HabitsRepository implements HabitsInterface {
       const response = await sqliteDb.executeSql(
         `SELECT * FROM ${this.tableName}`,
       );
-      console.log('response: ', response);
       response.forEach((habit: ResultSet) => {
         for (let i = 0; i < habit.rows.length; i++) {
           habits.push(habit.rows.item(i));
         }
       });
-      console.log('The habits obtained from the database are: ', habits);
       return habits;
     } catch (error) {
       console.log('ERROR: ', habits);
@@ -36,7 +34,7 @@ export class HabitsRepository implements HabitsInterface {
   async create(habit: HabitRequest): Promise<null> {
     try {
       await sqliteDb.executeSql(
-        `INSERT ${this.tableName}(name, created_at, date, init_hour, end_hour, repeatsEvery, repeatsEvery_unit, repeatsNum, description) VALUES (?,current_timestamp, ?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO ${this.tableName}(name, created_at, date, init_hour, end_hour, repeatsEvery, repeatsEvery_unit, repeatsNum, description) VALUES (?,current_timestamp, ?, ?, ?, ?, ?, ?, ?)`,
         [
           habit.name,
           habit.date,
@@ -61,7 +59,7 @@ export class HabitsRepository implements HabitsInterface {
       await sqliteDb.executeSql(`DELETE FROM ${this.tableName} WHERE id = ?;`, [
         habitId,
       ]);
-      console.log('Habit with id deleted sucessfully');
+      console.log(`Habit with id ${habitId} deleted sucessfully`);
       return null;
     } catch (error) {
       console.log(
