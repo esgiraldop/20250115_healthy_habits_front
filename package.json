@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "android": "eslint 'src/**/*.{ts,tsx}' 'core/**/*.{ts,tsx}' 'config/**/*.{ts,tsx}' '*.{ts,tsx}' && react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint 'src/**/*.{ts,tsx}' 'core/**/*.{ts,tsx}' 'config/**/*.{ts,tsx}' '*.{ts,tsx}'",
     "start": "react-native start",
