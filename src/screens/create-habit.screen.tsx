@@ -53,12 +53,6 @@ export const CreateHabitScreen = () => {
           validationSchema={habitSchema}
           onSubmit={onSubmit}>
           {formikProps => {
-            console.log(
-              'formikProps.touched: ',
-              JSON.stringify(formikProps.touched),
-            );
-            console.log('formikProps.isValid: ', formikProps.isValid);
-            console.log('formikProps.isSubmitting: ', formikProps.isSubmitting);
             return (
               <View>
                 <Text>Name</Text>
@@ -96,9 +90,8 @@ export const CreateHabitScreen = () => {
                 />
                 {formikProps.touched.init_hour &&
                   formikProps.errors.init_hour && (
-                    <Text style={{color: 'black', fontSize: 16, padding: 20}}>
+                    <Text style={{color: 'red'}}>
                       {formikProps.errors.init_hour}
-                      {'error'}
                     </Text>
                   )}
 
@@ -139,10 +132,13 @@ export const CreateHabitScreen = () => {
                   categories={freqUnitsCategories}
                   value={String(formikProps.values.repeatsEvery_unit)}
                   onChange={selectedValue =>
-                    formikProps.setFieldValue('repeatsEvery', selectedValue)
+                    formikProps.setFieldValue(
+                      'repeatsEvery_unit',
+                      selectedValue,
+                    )
                   }
                   onBlur={() =>
-                    formikProps.setFieldTouched('repeatsEvery', true)
+                    formikProps.setFieldTouched('repeatsEvery_unit', true)
                   }
                   placeholder={String(
                     formikProps.initialValues.repeatsEvery_unit,

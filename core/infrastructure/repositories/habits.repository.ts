@@ -19,13 +19,11 @@ export class HabitsRepository implements HabitsInterface {
       const response = await sqliteDb.executeSql(
         `SELECT * FROM ${this.tableName}`,
       );
-      console.log('response: ', response);
       response.forEach((habit: ResultSet) => {
         for (let i = 0; i < habit.rows.length; i++) {
           habits.push(habit.rows.item(i));
         }
       });
-      console.log('The habits obtained from the database are: ', habits);
       return habits;
     } catch (error) {
       console.log('ERROR: ', habits);
@@ -61,7 +59,7 @@ export class HabitsRepository implements HabitsInterface {
       await sqliteDb.executeSql(`DELETE FROM ${this.tableName} WHERE id = ?;`, [
         habitId,
       ]);
-      console.log('Habit with id deleted sucessfully');
+      console.log(`Habit with id ${habitId} deleted sucessfully`);
       return null;
     } catch (error) {
       console.log(

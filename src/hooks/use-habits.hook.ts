@@ -7,13 +7,17 @@ import {IHabit} from '../interfaces/habit.interface';
 export function useHabits() {
   const [habits, setHabits] = useState<IHabit[]>([]);
   const [isHabitLoading, setIsHabitLoading] = useState<boolean | null>(null);
-  // const [isDeleted, setIsDeleted] = useState<boolean>(false);
+  const [isHabitDeleting, setIsHabitDeleting] = useState<boolean | null>(null);
 
   useFocusEffect(
     useCallback(() => {
       let isMounted = true;
+      console.log('\n\nisMounted: ', isMounted);
+      console.log('isHabitDeleting: ', isHabitDeleting);
+      console.log('habits: ', habits);
+      console.log('\n\n');
       async function getHabitsInfo() {
-        if (isMounted) {
+        if (isMounted || isHabitDeleting) {
           setIsHabitLoading(true);
           const habitsInfo = await HabitsController.getAll();
           if (habitsInfo.length > 0) {
@@ -22,12 +26,13 @@ export function useHabits() {
           } else {
             setIsHabitLoading(false);
           }
+          setIsHabitDeleting(false);
         }
       }
 
       getHabitsInfo();
       return () => (isMounted = false);
-    }, []),
+    }, [isHabitDeleting]),
   );
 
   return {
@@ -35,6 +40,7 @@ export function useHabits() {
     setHabits,
     isHabitLoading,
     setIsHabitLoading,
-    // setIsDeleted,
+    isHabitDeleting,
+    setIsHabitDeleting,
   };
 }
