@@ -9,6 +9,20 @@ export function useHabits() {
   const [isHabitLoading, setIsHabitLoading] = useState<boolean | null>(null);
   const [isHabitDeleting, setIsHabitDeleting] = useState<boolean | null>(null);
 
+  const getHabitsInfo = async (isMounted: boolean) => {
+    if (isMounted || isHabitDeleting) {
+      setIsHabitLoading(true);
+      const habitsInfo = await HabitsController.getAll();
+      if (habitsInfo.length > 0) {
+        setHabits(habitsInfo);
+        setIsHabitLoading(false);
+      } else {
+        setIsHabitLoading(false);
+      }
+      setIsHabitDeleting(false);
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
       let isMounted = true;
@@ -16,22 +30,10 @@ export function useHabits() {
       console.log('isHabitDeleting: ', isHabitDeleting);
       console.log('habits: ', habits);
       console.log('\n\n');
-      async function getHabitsInfo() {
-        if (isMounted || isHabitDeleting) {
-          setIsHabitLoading(true);
-          const habitsInfo = await HabitsController.getAll();
-          if (habitsInfo.length > 0) {
-            setHabits(habitsInfo);
-            setIsHabitLoading(false);
-          } else {
-            setIsHabitLoading(false);
-          }
-          setIsHabitDeleting(false);
-        }
-      }
 
-      getHabitsInfo();
+      getHabitsInfo(isMounted);
       return () => (isMounted = false);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isHabitDeleting]),
   );
 
