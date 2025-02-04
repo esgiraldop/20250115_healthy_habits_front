@@ -1,6 +1,6 @@
 name: Run Unit Tests and Lint Files
 'on':
-  push:
+  pull_request:
     branches:
       - 'main'
       - 'features/**'
@@ -50,6 +50,3 @@ jobs:
           #npm run build
           npm run test
           npm run lint
-
-      - name: push
-        run: git push
