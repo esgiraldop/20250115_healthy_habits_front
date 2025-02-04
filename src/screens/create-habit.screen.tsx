@@ -2,7 +2,6 @@ import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line import/named
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Formik} from 'formik';
-// import React, {useEffect} from 'react';
 import React from 'react';
 import {
   ActivityIndicator,
