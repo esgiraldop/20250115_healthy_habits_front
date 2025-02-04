@@ -2,6 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line import/named
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Formik} from 'formik';
+// import React, {useEffect} from 'react';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -27,6 +28,7 @@ type CreateHabitScreenProp = NativeStackNavigationProp<
 export const CreateHabitScreen = () => {
   const navigation = useNavigation<CreateHabitScreenProp>();
 
+  // const initialValues: ICreateHabit = {
   const initialValues: ICreateHabit = {
     name: '',
     date: '',
@@ -40,6 +42,7 @@ export const CreateHabitScreen = () => {
 
   const onSubmit = async (values: ICreateHabit) => {
     await HabitsController.create(values);
+    console.log('These are the values: ', values);
     navigation.goBack();
   };
 
@@ -51,12 +54,19 @@ export const CreateHabitScreen = () => {
           validationSchema={habitSchema}
           onSubmit={onSubmit}>
           {formikProps => {
+            console.log(
+              'formikProps.touched: ',
+              JSON.stringify(formikProps.touched),
+            );
+            console.log('formikProps.isValid: ', formikProps.isValid);
+            console.log('formikProps.isSubmitting: ', formikProps.isSubmitting);
             return (
               <View>
                 <Text>Name</Text>
                 <TextInput
+                  defaultValue={initialValues.name}
                   onChangeText={formikProps.handleChange('name')}
-                  onBlur={formikProps.handleBlur('name')}
+                  onBlur={() => formikProps.setFieldTouched('name', true)}
                   value={formikProps.values.name}
                   placeholder="Enter the habit name"
                   placeholderTextColor={'gray'}
@@ -68,7 +78,7 @@ export const CreateHabitScreen = () => {
                 <Text>Date</Text>
                 <TextInput
                   onChangeText={formikProps.handleChange('date')}
-                  onBlur={formikProps.handleBlur('date')}
+                  onBlur={() => formikProps.setFieldTouched('date', true)}
                   value={formikProps.values.date}
                   placeholder="Enter the date"
                   placeholderTextColor={'gray'}
@@ -80,22 +90,23 @@ export const CreateHabitScreen = () => {
                 <Text>Initial hour</Text>
                 <TextInput
                   onChangeText={formikProps.handleChange('init_hour')}
-                  onBlur={formikProps.handleBlur('init_hour')}
+                  onBlur={() => formikProps.setFieldTouched('init_hour', true)}
                   value={String(formikProps.values.init_hour)}
                   placeholder="Enter the initial time of the day"
                   placeholderTextColor={'gray'}
                 />
                 {formikProps.touched.init_hour &&
                   formikProps.errors.init_hour && (
-                    <Text style={{color: 'red'}}>
+                    <Text style={{color: 'black', fontSize: 16, padding: 20}}>
                       {formikProps.errors.init_hour}
+                      {'error'}
                     </Text>
                   )}
 
                 <Text>End hour</Text>
                 <TextInput
                   onChangeText={formikProps.handleChange('end_hour')}
-                  onBlur={formikProps.handleBlur('end_hour')}
+                  onBlur={() => formikProps.setFieldTouched('end_hour', true)}
                   value={String(formikProps.values.end_hour)}
                   placeholder="Enter the end time of the day"
                   placeholderTextColor={'gray'}
@@ -110,7 +121,9 @@ export const CreateHabitScreen = () => {
                 <Text>repeatsEvery</Text>
                 <TextInput
                   onChangeText={formikProps.handleChange('repeatsEvery')}
-                  onBlur={formikProps.handleBlur('repeatsEvery')}
+                  onBlur={() =>
+                    formikProps.setFieldTouched('repeatsEvery', true)
+                  }
                   value={String(formikProps.values.repeatsEvery)}
                   placeholder={String(formikProps.values.repeatsEvery)}
                   placeholderTextColor={'gray'}
@@ -126,8 +139,12 @@ export const CreateHabitScreen = () => {
                 <DropdownCategories<typeof freqUnitsCategories>
                   categories={freqUnitsCategories}
                   value={String(formikProps.values.repeatsEvery_unit)}
-                  onChange={formikProps.handleChange('repeatsEvery_unit')}
-                  onBlur={formikProps.handleBlur('repeatsEvery_unit')}
+                  onChange={selectedValue =>
+                    formikProps.setFieldValue('repeatsEvery', selectedValue)
+                  }
+                  onBlur={() =>
+                    formikProps.setFieldTouched('repeatsEvery', true)
+                  }
                   placeholder={String(
                     formikProps.initialValues.repeatsEvery_unit,
                   )}
@@ -142,7 +159,9 @@ export const CreateHabitScreen = () => {
                 <Text>description</Text>
                 <TextInput
                   onChangeText={formikProps.handleChange('description')}
-                  onBlur={formikProps.handleBlur('description')}
+                  onBlur={() =>
+                    formikProps.setFieldTouched('description', true)
+                  }
                   value={String(formikProps.values.description)}
                   placeholder={String(formikProps.values.description)}
                   placeholderTextColor={'gray'}

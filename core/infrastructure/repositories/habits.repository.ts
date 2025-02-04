@@ -36,7 +36,7 @@ export class HabitsRepository implements HabitsInterface {
   async create(habit: HabitRequest): Promise<null> {
     try {
       await sqliteDb.executeSql(
-        `INSERT ${this.tableName}(name, created_at, date, init_hour, end_hour, repeatsEvery, repeatsEvery_unit, repeatsNum, description) VALUES (?,current_timestamp, ?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO ${this.tableName}(name, created_at, date, init_hour, end_hour, repeatsEvery, repeatsEvery_unit, repeatsNum, description) VALUES (?,current_timestamp, ?, ?, ?, ?, ?, ?, ?)`,
         [
           habit.name,
           habit.date,
