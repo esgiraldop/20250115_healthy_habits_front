@@ -29,7 +29,11 @@ export const HabitsListScreen = () => {
         title="This button takes to create a habit form"
         onPress={() => navigation.navigate('CreateHabit')}
       />
-      {isHabitLoading ? (
+      {!isHabitLoading && isHabitDeleting ? (
+        <View>
+          <Text>Deleting habit...</Text>
+        </View>
+      ) : isHabitLoading && !isHabitDeleting ? (
         <View>
           <Text>Habits loading...</Text>
         </View>

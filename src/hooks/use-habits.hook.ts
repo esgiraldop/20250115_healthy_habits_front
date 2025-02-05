@@ -13,23 +13,14 @@ export function useHabits() {
     if (isMounted || isHabitDeleting) {
       setIsHabitLoading(true);
       const habitsInfo = await HabitsController.getAll();
-      if (habitsInfo.length > 0) {
-        setHabits(habitsInfo);
-        setIsHabitLoading(false);
-      } else {
-        setIsHabitLoading(false);
-      }
-      setIsHabitDeleting(false);
+      setHabits(habitsInfo);
+      setIsHabitLoading(false);
     }
   };
 
   useFocusEffect(
     useCallback(() => {
       let isMounted = true;
-      console.log('\n\nisMounted: ', isMounted);
-      console.log('isHabitDeleting: ', isHabitDeleting);
-      console.log('habits: ', habits);
-      console.log('\n\n');
 
       getHabitsInfo(isMounted);
       return () => (isMounted = false);

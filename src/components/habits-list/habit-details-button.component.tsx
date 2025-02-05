@@ -20,10 +20,11 @@ export const HabitDetailsButton: React.FC<IHabitDetailsButton> = ({
   isHabitDeleting,
   setIsHabitDeleting,
 }) => {
-  const handleDelete = () => {
+  const handleHabitDelete = () => {
     async function deleteHabit() {
       setIsHabitDeleting(true);
       await HabitsController.delete(String(habitData.id));
+      setIsHabitDeleting(false);
     }
 
     deleteHabit();
@@ -33,7 +34,7 @@ export const HabitDetailsButton: React.FC<IHabitDetailsButton> = ({
     <>
       <TouchableOpacity style={[styles.item, styles.horizontalAlign]}>
         <Text style={styles.title}>{habitData.name}</Text>
-        <TouchableOpacity style={styles.button} onPress={handleDelete}>
+        <TouchableOpacity style={styles.button} onPress={handleHabitDelete}>
           {!isHabitDeleting ? (
             <Text>Delete</Text>
           ) : (
