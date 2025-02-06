@@ -1,13 +1,15 @@
-import React from 'react';
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 
 import {HabitsController} from '../../../core/infrastructure/controllers/habits.controller';
-import {IHabit} from '../../interfaces/habit.interface';
+import {freqUnitsCategories, IHabit} from '../../interfaces/habit.interface';
+import {buttonStyles} from '../../styles/buttons.styles';
+import {containersStyles} from '../../styles/containers.styles';
+import {textStyles} from '../../styles/texts.styles';
+import {
+  getUnitCategoriesJson,
+  getUnitMeaning,
+} from '../../utilities/getUnitCategories.utility';
 
 interface IHabitDetailsButton {
   habitData: IHabit;
@@ -20,20 +22,63 @@ export const HabitDetailsButton: React.FC<IHabitDetailsButton> = ({
   isHabitDeleting,
   setIsHabitDeleting,
 }) => {
-  const handleDelete = () => {
+  const handleHabitDelete = () => {
     async function deleteHabit() {
       setIsHabitDeleting(true);
       await HabitsController.delete(String(habitData.id));
+      setIsHabitDeleting(false);
     }
 
     deleteHabit();
   };
 
+  const [unitMeaning, setUnitmeaning] = useState<string | undefined>();
+
+  useEffect(() => {
+    const unitMeaningResponse = getUnitMeaning(
+      habitData.repeatsEvery_unit,
+      getUnitCategoriesJson(freqUnitsCategories),
+    );
+
+    setUnitmeaning(
+      habitData.repeatsEvery === 1
+        ? unitMeaningResponse
+        : unitMeaningResponse + 's',
+    );
+  }, [habitData, setUnitmeaning]);
+
   return (
     <>
-      <TouchableOpacity style={[styles.item, styles.horizontalAlign]}>
-        <Text style={styles.title}>{habitData.name}</Text>
-        <TouchableOpacity style={styles.button} onPress={handleDelete}>
+      <TouchableOpacity
+        style={[
+          containersStyles.buttonContainer,
+          containersStyles.horizontalAlign,
+        ]}>
+        <Text style={textStyles.title}>{habitData.name}</Text>
+        <View style={containersStyles.verticalAlign}>
+          <View style={containersStyles.horizontalLeftAlign}>
+            <Text style={textStyles.normalBold}>Starts on: </Text>
+            <Text style={textStyles.normal}>{habitData.date} </Text>
+            <Text style={textStyles.normalBold}>From: </Text>
+            <Text style={textStyles.normal}>{habitData.end_hour} </Text>
+            <Text style={textStyles.normalBold}>To: </Text>
+            <Text style={textStyles.normal}>{habitData.init_hour}</Text>
+          </View>
+
+          <View style={containersStyles.horizontalLeftAlign}>
+            <Text style={textStyles.normalBold}>Repeats every: </Text>
+            <Text style={textStyles.normal}>{habitData.repeatsEvery} </Text>
+            <Text style={textStyles.normal}>{unitMeaning} </Text>
+            <Text style={textStyles.normal}>, {habitData.repeatsNum} </Text>
+            <Text style={textStyles.normalBold}>
+              {habitData.repeatsNum === 1 ? 'time' : 'times'}
+            </Text>
+          </View>
+        </View>
+
+        <TouchableOpacity
+          style={buttonStyles.smallButton}
+          onPress={handleHabitDelete}>
           {!isHabitDeleting ? (
             <Text>Delete</Text>
           ) : (
@@ -47,33 +92,3 @@ export const HabitDetailsButton: React.FC<IHabitDetailsButton> = ({
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  item: {
-    padding: 16,
-    marginVertical: 8,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    elevation: 2,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  textError: {
-    color: 'red',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  horizontalAlign: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  button: {
-    backgroundColor: '#FF6961',
-    borderRadius: 5,
-    padding: 5,
-  },
-});

@@ -3,6 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 
 import {IDropdownCategories} from '../../interfaces/dropDown.interface';
+import {getUnitCategoriesJson} from '../../utilities/getUnitCategories.utility';
 
 export const DropdownCategories = <T extends Record<string, string>>({
   categories,
@@ -12,10 +13,7 @@ export const DropdownCategories = <T extends Record<string, string>>({
   placeholder,
 }: IDropdownCategories<T>): React.JSX.Element => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
-  const dropdownData = Object.entries(categories).map(([val, label]) => ({
-    label,
-    val,
-  }));
+  const dropdownData = getUnitCategoriesJson(categories);
 
   // Render the label above the dropdown if focused or value exists
   const renderLabel = (): JSX.Element | null => {

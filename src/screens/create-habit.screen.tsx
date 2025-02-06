@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line import/named
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Formik} from 'formik';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ActivityIndicator,
   ScrollView,
@@ -15,14 +15,26 @@ import {
 import {RepeatsEvery_unit_enum} from '../../core/domain/entities/habits/entities/habits.entity';
 import {HabitsController} from '../../core/infrastructure/controllers/habits.controller';
 import {DropdownCategories} from '../components/common/dropdown-categories.component';
+import {MyDateTimePicker} from '../components/common/my-date-time-picker.component';
 import {RootStackParamList} from '../interfaces';
 import {freqUnitsCategories, ICreateHabit} from '../interfaces/habit.interface';
 import {habitSchema} from '../schemas/habit.schema';
+import {buttonStyles} from '../styles/buttons.styles';
+import {containersStyles} from '../styles/containers.styles';
 
 type CreateHabitScreenProp = NativeStackNavigationProp<
   RootStackParamList,
   'CreateHabit'
 >;
+
+export type Mode = 'date' | 'time';
+
+export type DateTimePickerEvent = {
+  type: string;
+  nativeEvent: {
+    timestamp: number;
+  };
+};
 
 export const CreateHabitScreen = () => {
   const navigation = useNavigation<CreateHabitScreenProp>();
@@ -45,9 +57,29 @@ export const CreateHabitScreen = () => {
     navigation.goBack();
   };
 
+  //Date time picker
+  const [date, setDate] = useState<Date>(new Date());
+  const [mode, setMode] = useState<Mode>('date');
+  const [show, setShow] = useState<boolean>(false);
+
+  const onChange = (
+    event: DateTimePickerEvent,
+    selectedDate?: Date | undefined,
+  ) => {
+    const currentDate = selectedDate || date;
+    setShow(false);
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode: Mode) => {
+    console.log('show: ', show);
+    setShow(true);
+    setMode(currentMode);
+  };
+
   return (
     <ScrollView>
-      <View>
+      <View style={containersStyles.flatListContainer}>
         <Formik
           initialValues={initialValues}
           validationSchema={habitSchema}
@@ -69,9 +101,18 @@ export const CreateHabitScreen = () => {
                 )}
 
                 <Text>Date</Text>
+                <MyDateTimePicker
+                  mode={mode}
+                  show={show}
+                  date={date}
+                  onChange={onChange}
+                />
                 <TextInput
                   onChangeText={formikProps.handleChange('date')}
-                  onBlur={() => formikProps.setFieldTouched('date', true)}
+                  onBlur={() => {
+                    formikProps.setFieldTouched('date', true);
+                  }}
+                  onTouchEnd={() => showMode(mode)}
                   value={formikProps.values.date}
                   placeholder="Enter the date"
                   placeholderTextColor={'gray'}
@@ -110,7 +151,7 @@ export const CreateHabitScreen = () => {
                     </Text>
                   )}
 
-                <Text>repeatsEvery</Text>
+                <Text>Repeats every</Text>
                 <TextInput
                   onChangeText={formikProps.handleChange('repeatsEvery')}
                   onBlur={() =>
@@ -127,7 +168,7 @@ export const CreateHabitScreen = () => {
                     </Text>
                   )}
 
-                <Text>repeatsEvery_unit</Text>
+                {/* <Text>repeatsEvery_unit</Text> */}
                 <DropdownCategories<typeof freqUnitsCategories>
                   categories={freqUnitsCategories}
                   value={String(formikProps.values.repeatsEvery_unit)}
@@ -169,6 +210,7 @@ export const CreateHabitScreen = () => {
                   )}
 
                 <TouchableOpacity
+                  style={buttonStyles.normalButton}
                   // style={buttonStyle.acceptButton}
                   onPress={() => formikProps.handleSubmit()}
                   disabled={!formikProps.isValid || formikProps.isSubmitting}>
