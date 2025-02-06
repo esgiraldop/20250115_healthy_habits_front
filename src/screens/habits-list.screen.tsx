@@ -2,11 +2,13 @@ import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line import/named
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
-import {Button, FlatList, Text, View, StyleSheet} from 'react-native';
+import {FlatList, Text, View, TouchableOpacity} from 'react-native';
 
 import {HabitDetailsButton} from '../components/habits-list/habit-details-button.component';
 import {useHabits} from '../hooks/use-habits.hook';
 import {RootStackParamList} from '../interfaces';
+import {buttonStyles} from '../styles/buttons.styles';
+import {containersStyles} from '../styles/containers.styles';
 
 type HabitsListScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -20,15 +22,19 @@ export const HabitsListScreen = () => {
     useHabits();
 
   return (
-    <View style={styles.container}>
-      <Button
-        title="This button takes to habits calendar"
-        onPress={() => navigation.navigate('HabitsCalendar')}
-      />
-      <Button
-        title="This button takes to create a habit form"
-        onPress={() => navigation.navigate('CreateHabit')}
-      />
+    <View style={containersStyles.flatListContainer}>
+      <View style={containersStyles.horizontalAlign}>
+        <TouchableOpacity
+          style={buttonStyles.normalButton}
+          onPress={() => navigation.navigate('HabitsCalendar')}>
+          <Text>Go to calendar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={buttonStyles.normalButton}
+          onPress={() => navigation.navigate('CreateHabit')}>
+          <Text>Create a habit</Text>
+        </TouchableOpacity>
+      </View>
       {!isHabitLoading && isHabitDeleting ? (
         <View>
           <Text>Deleting habit...</Text>
@@ -59,11 +65,3 @@ export const HabitsListScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#f5f5f5',
-  },
-});

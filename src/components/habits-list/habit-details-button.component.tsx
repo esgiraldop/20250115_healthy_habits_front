@@ -1,14 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 
 import {HabitsController} from '../../../core/infrastructure/controllers/habits.controller';
 import {freqUnitsCategories, IHabit} from '../../interfaces/habit.interface';
+import {buttonStyles} from '../../styles/buttons.styles';
+import {containersStyles} from '../../styles/containers.styles';
+import {textStyles} from '../../styles/texts.styles';
 import {
   getUnitCategoriesJson,
   getUnitMeaning,
@@ -52,30 +49,36 @@ export const HabitDetailsButton: React.FC<IHabitDetailsButton> = ({
 
   return (
     <>
-      <TouchableOpacity style={[styles.item, styles.horizontalAlign]}>
-        <Text style={styles.title}>{habitData.name}</Text>
-        <View style={styles.verticalAlign}>
-          <View style={styles.horizontalLeftAlign}>
-            <Text style={styles.normalBold}>Starts on: </Text>
-            <Text style={styles.normal}>{habitData.date} </Text>
-            <Text style={styles.normalBold}>From: </Text>
-            <Text style={styles.normal}>{habitData.end_hour} </Text>
-            <Text style={styles.normalBold}>To: </Text>
-            <Text style={styles.normal}>{habitData.init_hour}</Text>
+      <TouchableOpacity
+        style={[
+          containersStyles.buttonContainer,
+          containersStyles.horizontalAlign,
+        ]}>
+        <Text style={textStyles.title}>{habitData.name}</Text>
+        <View style={containersStyles.verticalAlign}>
+          <View style={containersStyles.horizontalLeftAlign}>
+            <Text style={textStyles.normalBold}>Starts on: </Text>
+            <Text style={textStyles.normal}>{habitData.date} </Text>
+            <Text style={textStyles.normalBold}>From: </Text>
+            <Text style={textStyles.normal}>{habitData.end_hour} </Text>
+            <Text style={textStyles.normalBold}>To: </Text>
+            <Text style={textStyles.normal}>{habitData.init_hour}</Text>
           </View>
 
-          <View style={styles.horizontalLeftAlign}>
-            <Text style={styles.normalBold}>Repeats every: </Text>
-            <Text style={styles.normal}>{habitData.repeatsEvery} </Text>
-            <Text style={styles.normal}>{unitMeaning} </Text>
-            <Text style={styles.normal}>, {habitData.repeatsNum} </Text>
-            <Text style={styles.normalBold}>
+          <View style={containersStyles.horizontalLeftAlign}>
+            <Text style={textStyles.normalBold}>Repeats every: </Text>
+            <Text style={textStyles.normal}>{habitData.repeatsEvery} </Text>
+            <Text style={textStyles.normal}>{unitMeaning} </Text>
+            <Text style={textStyles.normal}>, {habitData.repeatsNum} </Text>
+            <Text style={textStyles.normalBold}>
               {habitData.repeatsNum === 1 ? 'time' : 'times'}
             </Text>
           </View>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleHabitDelete}>
+        <TouchableOpacity
+          style={buttonStyles.smallButton}
+          onPress={handleHabitDelete}>
           {!isHabitDeleting ? (
             <Text>Delete</Text>
           ) : (
@@ -89,54 +92,3 @@ export const HabitDetailsButton: React.FC<IHabitDetailsButton> = ({
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  item: {
-    padding: 16,
-    marginVertical: 8,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    elevation: 2,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  normalBold: {
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  normal: {
-    fontSize: 12,
-    fontWeight: 'black',
-  },
-  textError: {
-    color: 'red',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  horizontalAlign: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  horizontalLeftAlign: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    textAlign: 'left',
-  },
-  verticalAlign: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  button: {
-    backgroundColor: '#FF6961',
-    borderRadius: 5,
-    padding: 5,
-  },
-});
