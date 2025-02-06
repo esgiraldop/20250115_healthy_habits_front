@@ -23,7 +23,7 @@ export const HabitsListScreen = () => {
 
   return (
     <View style={containersStyles.flatListContainer}>
-      <View style={containersStyles.horizontalAlign}>
+      <View style={containersStyles.horizontalRightAlign}>
         <TouchableOpacity
           style={buttonStyles.normalButton}
           onPress={() => navigation.navigate('HabitsCalendar')}>

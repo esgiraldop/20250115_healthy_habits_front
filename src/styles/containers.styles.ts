@@ -19,11 +19,16 @@ export const containersStyles = StyleSheet.create({
     alignItems: 'center',
   },
   horizontalLeftAlign: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     textAlign: 'left',
+  },
+  horizontalRightAlign: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    textAlign: 'right',
   },
   verticalAlign: {
     flex: 1,

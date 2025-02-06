@@ -18,6 +18,8 @@ import {DropdownCategories} from '../components/common/dropdown-categories.compo
 import {RootStackParamList} from '../interfaces';
 import {freqUnitsCategories, ICreateHabit} from '../interfaces/habit.interface';
 import {habitSchema} from '../schemas/habit.schema';
+import {buttonStyles} from '../styles/buttons.styles';
+import {containersStyles} from '../styles/containers.styles';
 
 type CreateHabitScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -47,7 +49,7 @@ export const CreateHabitScreen = () => {
 
   return (
     <ScrollView>
-      <View>
+      <View style={containersStyles.flatListContainer}>
         <Formik
           initialValues={initialValues}
           validationSchema={habitSchema}
@@ -110,7 +112,7 @@ export const CreateHabitScreen = () => {
                     </Text>
                   )}
 
-                <Text>repeatsEvery</Text>
+                <Text>Repeats every</Text>
                 <TextInput
                   onChangeText={formikProps.handleChange('repeatsEvery')}
                   onBlur={() =>
@@ -127,7 +129,7 @@ export const CreateHabitScreen = () => {
                     </Text>
                   )}
 
-                <Text>repeatsEvery_unit</Text>
+                {/* <Text>repeatsEvery_unit</Text> */}
                 <DropdownCategories<typeof freqUnitsCategories>
                   categories={freqUnitsCategories}
                   value={String(formikProps.values.repeatsEvery_unit)}
@@ -169,6 +171,7 @@ export const CreateHabitScreen = () => {
                   )}
 
                 <TouchableOpacity
+                  style={buttonStyles.normalButton}
                   // style={buttonStyle.acceptButton}
                   onPress={() => formikProps.handleSubmit()}
                   disabled={!formikProps.isValid || formikProps.isSubmitting}>
