@@ -21,6 +21,7 @@ import {freqUnitsCategories, ICreateHabit} from '../interfaces/habit.interface';
 import {habitSchema} from '../schemas/habit.schema';
 import {buttonStyles} from '../styles/buttons.styles';
 import {containersStyles} from '../styles/containers.styles';
+import {currentDate} from '../utilities/dates.utility';
 
 type CreateHabitScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -42,7 +43,7 @@ export const CreateHabitScreen = () => {
   // const initialValues: ICreateHabit = {
   const initialValues: ICreateHabit = {
     name: '',
-    date: '',
+    date: currentDate,
     init_hour: 0,
     end_hour: 0,
     repeatsEvery: 0,
@@ -57,25 +58,8 @@ export const CreateHabitScreen = () => {
     navigation.goBack();
   };
 
-  //Date time picker
   const [date, setDate] = useState<Date>(new Date());
-  const [mode, setMode] = useState<Mode>('date');
-  const [show, setShow] = useState<boolean>(false);
-
-  const onChange = (
-    event: DateTimePickerEvent,
-    selectedDate?: Date | undefined,
-  ) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
-  };
-
-  const showMode = (currentMode: Mode) => {
-    console.log('show: ', show);
-    setShow(true);
-    setMode(currentMode);
-  };
+  const [showDate, setShowDate] = useState<boolean>(false);
 
   return (
     <ScrollView>
@@ -85,6 +69,7 @@ export const CreateHabitScreen = () => {
           validationSchema={habitSchema}
           onSubmit={onSubmit}>
           {formikProps => {
+            // console.log('formikProps.touched.date: ', formikProps.touched.date);
             return (
               <View>
                 <Text>Name</Text>
@@ -102,17 +87,33 @@ export const CreateHabitScreen = () => {
 
                 <Text>Date</Text>
                 <MyDateTimePicker
-                  mode={mode}
-                  show={show}
+                  mode={'date'}
+                  show={showDate}
                   date={date}
-                  onChange={onChange}
+                  onChange={(_, selectedDate) => {
+                    setDate(selectedDate || date);
+                    formikProps.setFieldValue(
+                      'date',
+                      selectedDate?.toISOString().slice(0, 10),
+                    );
+                    setShowDate(false);
+                  }}
                 />
                 <TextInput
-                  onChangeText={formikProps.handleChange('date')}
-                  onBlur={() => {
-                    formikProps.setFieldTouched('date', true);
+                  onChangeText={() => {
+                    formikProps.handleChange('date');
+                    console.log('Text changed');
                   }}
-                  onTouchEnd={() => showMode(mode)}
+                  onBlur={() => {
+                    setShowDate(false);
+                    formikProps.setFieldTouched('date', false);
+                    console.log('Text blurred');
+                  }}
+                  onTouchStart={() => {
+                    setShowDate(true);
+                    formikProps.setFieldTouched('date', true);
+                    console.log('Text touched');
+                  }}
                   value={formikProps.values.date}
                   placeholder="Enter the date"
                   placeholderTextColor={'gray'}
