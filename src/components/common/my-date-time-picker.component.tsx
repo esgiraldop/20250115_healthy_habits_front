@@ -8,10 +8,7 @@ interface IMyDateTimePicker {
   mode: Mode;
   show: boolean;
   date: Date;
-  onChange: (
-    event: DateTimePickerEvent,
-    selectedDate?: Date | undefined,
-  ) => void;
+  onChange: (event: DateTimePickerEvent, selectedDate?: Date) => void;
 }
 
 export const MyDateTimePicker: React.FC<IMyDateTimePicker> = ({
@@ -22,8 +19,6 @@ export const MyDateTimePicker: React.FC<IMyDateTimePicker> = ({
 }: IMyDateTimePicker) => {
   return (
     <View>
-      {/* <Button onPress={() => showMode(currentMode)} title="Show date picker!" /> */}
-      {/* <Text>selected: {date.toLocaleString()}</Text> */}
       {show && (
         <DateTimePicker
           testID="dateTimePicker"
@@ -32,7 +27,7 @@ export const MyDateTimePicker: React.FC<IMyDateTimePicker> = ({
           is24Hour={true}
           onChange={onChange}
           display="default"
-          minimumDate={new Date()} //Today
+          minimumDate={new Date()}
         />
       )}
     </View>

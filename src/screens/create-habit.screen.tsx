@@ -21,6 +21,11 @@ import {freqUnitsCategories, ICreateHabit} from '../interfaces/habit.interface';
 import {habitSchema} from '../schemas/habit.schema';
 import {buttonStyles} from '../styles/buttons.styles';
 import {containersStyles} from '../styles/containers.styles';
+import {
+  currentDate,
+  getISODateString,
+  getMilitaryTimeString,
+} from '../utilities/dates.utility';
 
 type CreateHabitScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -42,9 +47,9 @@ export const CreateHabitScreen = () => {
   // const initialValues: ICreateHabit = {
   const initialValues: ICreateHabit = {
     name: '',
-    date: '',
-    init_hour: 0,
-    end_hour: 0,
+    date: getISODateString(currentDate),
+    init_hour: '00:00',
+    end_hour: '00:00',
     repeatsEvery: 0,
     repeatsEvery_unit: RepeatsEvery_unit_enum.D,
     repeatsNum: 1,
@@ -57,25 +62,12 @@ export const CreateHabitScreen = () => {
     navigation.goBack();
   };
 
-  //Date time picker
   const [date, setDate] = useState<Date>(new Date());
-  const [mode, setMode] = useState<Mode>('date');
-  const [show, setShow] = useState<boolean>(false);
-
-  const onChange = (
-    event: DateTimePickerEvent,
-    selectedDate?: Date | undefined,
-  ) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
-  };
-
-  const showMode = (currentMode: Mode) => {
-    console.log('show: ', show);
-    setShow(true);
-    setMode(currentMode);
-  };
+  const [initHour, setInitHour] = useState<Date>(new Date());
+  const [endHour, setEndHour] = useState<Date>(new Date());
+  const [showDate, setShowDate] = useState<boolean>(false);
+  const [showInitHour, setShowInitHour] = useState<boolean>(false);
+  const [showEndHour, setShowEndHour] = useState<boolean>(false);
 
   return (
     <ScrollView>
@@ -102,17 +94,32 @@ export const CreateHabitScreen = () => {
 
                 <Text>Date</Text>
                 <MyDateTimePicker
-                  mode={mode}
-                  show={show}
+                  mode={'date'}
+                  show={showDate}
                   date={date}
-                  onChange={onChange}
+                  onChange={(_, selectedDate) => {
+                    setDate(selectedDate || date);
+                    formikProps.setFieldValue(
+                      'date',
+                      getISODateString(
+                        selectedDate ? selectedDate : currentDate,
+                      ),
+                    );
+                    setShowDate(false);
+                  }}
                 />
                 <TextInput
-                  onChangeText={formikProps.handleChange('date')}
+                  onChangeText={() => {
+                    formikProps.handleChange('date');
+                  }}
                   onBlur={() => {
+                    setShowDate(false);
+                    formikProps.setFieldTouched('date', false);
+                  }}
+                  onTouchStart={() => {
+                    setShowDate(true);
                     formikProps.setFieldTouched('date', true);
                   }}
-                  onTouchEnd={() => showMode(mode)}
                   value={formikProps.values.date}
                   placeholder="Enter the date"
                   placeholderTextColor={'gray'}
@@ -122,9 +129,31 @@ export const CreateHabitScreen = () => {
                 )}
 
                 <Text>Initial hour</Text>
+                <MyDateTimePicker
+                  mode={'time'}
+                  show={showInitHour}
+                  date={initHour}
+                  onChange={(_, selectedHour) => {
+                    setInitHour(selectedHour || initHour);
+                    formikProps.setFieldValue(
+                      'init_hour',
+                      getMilitaryTimeString(
+                        selectedHour ? selectedHour : currentDate,
+                      ),
+                    );
+                    setShowInitHour(false);
+                  }}
+                />
                 <TextInput
                   onChangeText={formikProps.handleChange('init_hour')}
-                  onBlur={() => formikProps.setFieldTouched('init_hour', true)}
+                  onBlur={() => {
+                    setShowInitHour(false);
+                    formikProps.setFieldTouched('init_hour', true);
+                  }}
+                  onTouchStart={() => {
+                    setShowInitHour(true);
+                    formikProps.setFieldTouched('init_hour', true);
+                  }}
                   value={String(formikProps.values.init_hour)}
                   placeholder="Enter the initial time of the day"
                   placeholderTextColor={'gray'}
@@ -137,9 +166,31 @@ export const CreateHabitScreen = () => {
                   )}
 
                 <Text>End hour</Text>
+                <MyDateTimePicker
+                  mode={'time'}
+                  show={showEndHour}
+                  date={endHour}
+                  onChange={(_, selectedHour) => {
+                    setEndHour(selectedHour || endHour);
+                    formikProps.setFieldValue(
+                      'end_hour',
+                      getMilitaryTimeString(
+                        selectedHour ? selectedHour : currentDate,
+                      ),
+                    );
+                    setShowEndHour(false);
+                  }}
+                />
                 <TextInput
                   onChangeText={formikProps.handleChange('end_hour')}
-                  onBlur={() => formikProps.setFieldTouched('end_hour', true)}
+                  onBlur={() => {
+                    setShowEndHour(false);
+                    formikProps.setFieldTouched('end_hour', true);
+                  }}
+                  onTouchStart={() => {
+                    setShowEndHour(true);
+                    formikProps.setFieldTouched('end_hour', true);
+                  }}
                   value={String(formikProps.values.end_hour)}
                   placeholder="Enter the end time of the day"
                   placeholderTextColor={'gray'}

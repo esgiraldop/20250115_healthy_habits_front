@@ -5,14 +5,8 @@ import {RepeatsEvery_unit_enum} from '../../core/domain/entities/habits/entities
 export const habitSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
   date: Yup.string().required('Date is required'),
-  init_hour: Yup.number()
-    .required('Initial hour is required')
-    .min(0, 'Initial hour must be at least 0')
-    .max(23, 'Initial hour must be at most 23'),
-  end_hour: Yup.number()
-    .required('End hour is required')
-    .min(0, 'End hour must be at least 0')
-    .max(23, 'End hour must be at most 23'),
+  init_hour: Yup.string().required('Initial hour is required'),
+  end_hour: Yup.string().required('End hour is required'),
   repeatsEvery: Yup.number()
     .required('Repeats every is required')
     .min(1, 'Repeats every must be at least 1'),
