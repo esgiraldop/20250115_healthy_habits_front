@@ -48,8 +48,8 @@ export const CreateHabitScreen = () => {
   const initialValues: ICreateHabit = {
     name: '',
     date: getISODateString(currentDate),
-    init_hour: 0,
-    end_hour: 0,
+    init_hour: '00:00',
+    end_hour: '00:00',
     repeatsEvery: 0,
     repeatsEvery_unit: RepeatsEvery_unit_enum.D,
     repeatsNum: 1,
