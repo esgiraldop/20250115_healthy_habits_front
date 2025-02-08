@@ -12,7 +12,7 @@ export const createHabitsTable = async (db: Transaction | SQLiteDatabase) => {
           init_hour TEXT,
           end_hour TEXT,
           repeatsEvery INTEGER,
-          repeatsEvery_unit INTEGER,
+          repeatsEvery_unit TEXT,
           repeatsNum INTEGER,
           description TEXT
       );`;

@@ -60,9 +60,9 @@ export const HabitDetailsButton: React.FC<IHabitDetailsButton> = ({
             <Text style={textStyles.normalBold}>Starts on: </Text>
             <Text style={textStyles.normal}>{habitData.date} </Text>
             <Text style={textStyles.normalBold}>From: </Text>
-            <Text style={textStyles.normal}>{habitData.end_hour} </Text>
+            <Text style={textStyles.normal}>{habitData.init_hour} </Text>
             <Text style={textStyles.normalBold}>To: </Text>
-            <Text style={textStyles.normal}>{habitData.init_hour}</Text>
+            <Text style={textStyles.normal}>{habitData.end_hour}</Text>
           </View>
 
           <View style={containersStyles.horizontalLeftAlign}>

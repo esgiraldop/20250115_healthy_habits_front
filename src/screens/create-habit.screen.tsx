@@ -64,10 +64,10 @@ export const CreateHabitScreen = () => {
 
   const [date, setDate] = useState<Date>(new Date());
   const [initHour, setInitHour] = useState<Date>(new Date());
-  // const [endHour, setEndHour] = useState<Date>(new Date());
+  const [endHour, setEndHour] = useState<Date>(new Date());
   const [showDate, setShowDate] = useState<boolean>(false);
   const [showInitHour, setShowInitHour] = useState<boolean>(false);
-  // const [showEndHour, setShowEndHour] = useState<boolean>(false);
+  const [showEndHour, setShowEndHour] = useState<boolean>(false);
 
   return (
     <ScrollView>
@@ -77,7 +77,6 @@ export const CreateHabitScreen = () => {
           validationSchema={habitSchema}
           onSubmit={onSubmit}>
           {formikProps => {
-            // console.log('formikProps.touched.date: ', formikProps.touched.date);
             return (
               <View>
                 <Text>Name</Text>
@@ -167,9 +166,31 @@ export const CreateHabitScreen = () => {
                   )}
 
                 <Text>End hour</Text>
+                <MyDateTimePicker
+                  mode={'time'}
+                  show={showEndHour}
+                  date={endHour}
+                  onChange={(_, selectedHour) => {
+                    setEndHour(selectedHour || endHour);
+                    formikProps.setFieldValue(
+                      'end_hour',
+                      getMilitaryTimeString(
+                        selectedHour ? selectedHour : currentDate,
+                      ),
+                    );
+                    setShowEndHour(false);
+                  }}
+                />
                 <TextInput
                   onChangeText={formikProps.handleChange('end_hour')}
-                  onBlur={() => formikProps.setFieldTouched('end_hour', true)}
+                  onBlur={() => {
+                    setShowEndHour(false);
+                    formikProps.setFieldTouched('end_hour', true);
+                  }}
+                  onTouchStart={() => {
+                    setShowEndHour(true);
+                    formikProps.setFieldTouched('end_hour', true);
+                  }}
                   value={String(formikProps.values.end_hour)}
                   placeholder="Enter the end time of the day"
                   placeholderTextColor={'gray'}
