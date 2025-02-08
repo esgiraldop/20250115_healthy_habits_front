@@ -21,7 +21,11 @@ import {freqUnitsCategories, ICreateHabit} from '../interfaces/habit.interface';
 import {habitSchema} from '../schemas/habit.schema';
 import {buttonStyles} from '../styles/buttons.styles';
 import {containersStyles} from '../styles/containers.styles';
-import {currentDate} from '../utilities/dates.utility';
+import {
+  currentDate,
+  getISODateString,
+  getMilitaryTimeString,
+} from '../utilities/dates.utility';
 
 type CreateHabitScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -43,7 +47,7 @@ export const CreateHabitScreen = () => {
   // const initialValues: ICreateHabit = {
   const initialValues: ICreateHabit = {
     name: '',
-    date: currentDate,
+    date: getISODateString(currentDate),
     init_hour: 0,
     end_hour: 0,
     repeatsEvery: 0,
@@ -59,7 +63,11 @@ export const CreateHabitScreen = () => {
   };
 
   const [date, setDate] = useState<Date>(new Date());
+  const [initHour, setInitHour] = useState<Date>(new Date());
+  // const [endHour, setEndHour] = useState<Date>(new Date());
   const [showDate, setShowDate] = useState<boolean>(false);
+  const [showInitHour, setShowInitHour] = useState<boolean>(false);
+  // const [showEndHour, setShowEndHour] = useState<boolean>(false);
 
   return (
     <ScrollView>
@@ -94,7 +102,9 @@ export const CreateHabitScreen = () => {
                     setDate(selectedDate || date);
                     formikProps.setFieldValue(
                       'date',
-                      selectedDate?.toISOString().slice(0, 10),
+                      getISODateString(
+                        selectedDate ? selectedDate : currentDate,
+                      ),
                     );
                     setShowDate(false);
                   }}
@@ -102,17 +112,14 @@ export const CreateHabitScreen = () => {
                 <TextInput
                   onChangeText={() => {
                     formikProps.handleChange('date');
-                    console.log('Text changed');
                   }}
                   onBlur={() => {
                     setShowDate(false);
                     formikProps.setFieldTouched('date', false);
-                    console.log('Text blurred');
                   }}
                   onTouchStart={() => {
                     setShowDate(true);
                     formikProps.setFieldTouched('date', true);
-                    console.log('Text touched');
                   }}
                   value={formikProps.values.date}
                   placeholder="Enter the date"
@@ -123,9 +130,31 @@ export const CreateHabitScreen = () => {
                 )}
 
                 <Text>Initial hour</Text>
+                <MyDateTimePicker
+                  mode={'time'}
+                  show={showInitHour}
+                  date={initHour}
+                  onChange={(_, selectedHour) => {
+                    setInitHour(selectedHour || initHour);
+                    formikProps.setFieldValue(
+                      'init_hour',
+                      getMilitaryTimeString(
+                        selectedHour ? selectedHour : currentDate,
+                      ),
+                    );
+                    setShowInitHour(false);
+                  }}
+                />
                 <TextInput
                   onChangeText={formikProps.handleChange('init_hour')}
-                  onBlur={() => formikProps.setFieldTouched('init_hour', true)}
+                  onBlur={() => {
+                    setShowInitHour(false);
+                    formikProps.setFieldTouched('init_hour', true);
+                  }}
+                  onTouchStart={() => {
+                    setShowInitHour(true);
+                    formikProps.setFieldTouched('init_hour', true);
+                  }}
                   value={String(formikProps.values.init_hour)}
                   placeholder="Enter the initial time of the day"
                   placeholderTextColor={'gray'}
