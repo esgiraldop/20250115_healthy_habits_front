@@ -1,5 +1,8 @@
 import {Habit} from '../../domain/entities/habits/entities/habits.entity';
-import {HabitRequest} from '../../domain/entities/habits/request/habits.request';
+import {
+  HabitCreateRequest,
+  HabitUpdateRequest,
+} from '../../domain/entities/habits/request/habits.request';
 import {HabitsRepository} from '../../infrastructure/repositories/habits.repository';
 
 export const getAllHabits = async (
@@ -17,9 +20,16 @@ export const getHabitById = async (
 
 export const createHabit = async (
   habitsRepository: HabitsRepository,
-  data: HabitRequest,
+  data: HabitCreateRequest,
 ): Promise<null> => {
   return await habitsRepository.create(data);
+};
+
+export const updateHabit = async (
+  habitsRepository: HabitsRepository,
+  data: HabitUpdateRequest,
+): Promise<null> => {
+  return await habitsRepository.update(data);
 };
 
 export const deleteHabit = async (

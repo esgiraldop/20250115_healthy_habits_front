@@ -19,7 +19,7 @@ import {DropdownCategories} from '../components/common/dropdown-categories.compo
 import {MyDateTimePicker} from '../components/common/my-date-time-picker.component';
 import {useSingleHabit} from '../hooks/use-single-habit.hook';
 import {RootStackParamList} from '../interfaces';
-import {freqUnitsCategories, ICreateHabit} from '../interfaces/habit.interface';
+import {freqUnitsCategories, IUpdateHabit} from '../interfaces/habit.interface';
 import {habitSchema} from '../schemas/habit.schema';
 import {buttonStyles} from '../styles/buttons.styles';
 import {containersStyles} from '../styles/containers.styles';
@@ -50,7 +50,8 @@ export const EditHabitScreen = () => {
   const [showInitHour, setShowInitHour] = useState<boolean>(false);
   const [showEndHour, setShowEndHour] = useState<boolean>(false);
 
-  const initialValues: ICreateHabit = {
+  const initialValues: IUpdateHabit = {
+    id: +params.habitId,
     name: singleHabit?.name || '',
     date: singleHabit?.date || '',
     init_hour: singleHabit?.init_hour || '',
@@ -62,9 +63,9 @@ export const EditHabitScreen = () => {
     description: singleHabit?.description || '',
   };
 
-  const onSubmit = async (values: ICreateHabit) => {
+  const onSubmit = async (values: IUpdateHabit) => {
     console.log('The values that will be updated are: ', values);
-    await HabitsController.create(values);
+    await HabitsController.update(values);
     navigation.goBack();
   };
 

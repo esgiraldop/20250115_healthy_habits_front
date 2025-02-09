@@ -2,13 +2,16 @@ import {
   Habit,
   RepeatsEvery_unit_enum,
 } from '../../core/domain/entities/habits/entities/habits.entity';
-import {HabitRequest} from '../../core/domain/entities/habits/request/habits.request';
+import {
+  HabitCreateRequest,
+  HabitUpdateRequest,
+} from '../../core/domain/entities/habits/request/habits.request';
 
 export interface IHabit extends Habit {}
 
-export interface ICreateHabit extends HabitRequest {}
+export interface ICreateHabit extends HabitCreateRequest {}
 
-export interface IUpdateHabit extends Partial<IHabit> {}
+export interface IUpdateHabit extends HabitUpdateRequest {}
 
 export type unit_enum = RepeatsEvery_unit_enum;
 
