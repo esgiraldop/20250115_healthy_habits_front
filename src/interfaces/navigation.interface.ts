@@ -8,8 +8,8 @@ export interface RootStackParamList extends ParamListBase {
   RecoverPassword: undefined;
   // Private screens
   HabitsList: undefined;
-  HabitsCalendar: {transactionId: string};
+  HabitsCalendar: {habitId: string};
   HabitsSummary: undefined;
   CreateHabit: {parentBudgetId: string | undefined};
-  EditHabit: {transactionId: string};
+  EditHabit: {habitId: string};
 }

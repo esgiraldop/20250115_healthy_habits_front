@@ -8,6 +8,13 @@ export const getAllHabits = async (
   return await habitsRepository.getAll();
 };
 
+export const getHabitById = async (
+  habitsRepository: HabitsRepository,
+  habitId: string,
+): Promise<Habit> => {
+  return await habitsRepository.getHabitById(habitId);
+};
+
 export const createHabit = async (
   habitsRepository: HabitsRepository,
   data: HabitRequest,

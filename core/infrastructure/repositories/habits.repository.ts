@@ -31,6 +31,20 @@ export class HabitsRepository implements HabitsInterface {
     }
   }
 
+  async getHabitById(habitId: string): Promise<Habit> {
+    const habit: Habit | null = null;
+    try {
+      const response = await sqliteDb.executeSql(
+        `SELECT * FROM ${this.tableName} WHERE id = ?`,
+        [habitId],
+      );
+      return response[0].rows.item(0);
+    } catch (error) {
+      console.log('ERROR: ', habit);
+      throw new Error(`Failed to get habit with id ${habitId}:  ${error}`);
+    }
+  }
+
   async create(habit: HabitRequest): Promise<null> {
     try {
       await sqliteDb.executeSql(
