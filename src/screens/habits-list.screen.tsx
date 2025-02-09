@@ -10,7 +10,7 @@ import {RootStackParamList} from '../interfaces';
 import {buttonStyles} from '../styles/buttons.styles';
 import {containersStyles} from '../styles/containers.styles';
 
-type HabitsListScreenProp = NativeStackNavigationProp<
+export type HabitsListScreenProp = NativeStackNavigationProp<
   RootStackParamList,
   'HabitsList'
 >;
@@ -56,6 +56,7 @@ export const HabitsListScreen = () => {
                 habitData={item}
                 isHabitDeleting={isHabitDeleting}
                 setIsHabitDeleting={setIsHabitDeleting}
+                HabitsListNavigation={navigation}
               />
             )}
             keyExtractor={item => item.id.toString()}

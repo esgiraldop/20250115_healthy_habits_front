@@ -58,7 +58,6 @@ export const CreateHabitScreen = () => {
 
   const onSubmit = async (values: ICreateHabit) => {
     await HabitsController.create(values);
-    console.log('These are the values: ', values);
     navigation.goBack();
   };
 
@@ -219,7 +218,6 @@ export const CreateHabitScreen = () => {
                     </Text>
                   )}
 
-                {/* <Text>repeatsEvery_unit</Text> */}
                 <DropdownCategories<typeof freqUnitsCategories>
                   categories={freqUnitsCategories}
                   value={String(formikProps.values.repeatsEvery_unit)}
@@ -262,7 +260,6 @@ export const CreateHabitScreen = () => {
 
                 <TouchableOpacity
                   style={buttonStyles.normalButton}
-                  // style={buttonStyle.acceptButton}
                   onPress={() => formikProps.handleSubmit()}
                   disabled={!formikProps.isValid || formikProps.isSubmitting}>
                   {formikProps.isSubmitting ? (

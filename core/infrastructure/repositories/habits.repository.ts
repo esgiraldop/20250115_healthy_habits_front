@@ -4,7 +4,10 @@ import {ResultSet} from 'react-native-sqlite-storage';
 // 2. Internal modules (project-specific imports)
 import {sqliteDb} from '../../../config/db/config/db.config';
 import {Habit} from '../../domain/entities/habits/entities/habits.entity';
-import {HabitRequest} from '../../domain/entities/habits/request/habits.request';
+import {
+  HabitCreateRequest,
+  HabitUpdateRequest,
+} from '../../domain/entities/habits/request/habits.request';
 import {HabitsInterface} from '../../domain/interfaces/habits.interface';
 
 export class HabitsRepository implements HabitsInterface {
@@ -31,7 +34,21 @@ export class HabitsRepository implements HabitsInterface {
     }
   }
 
-  async create(habit: HabitRequest): Promise<null> {
+  async getHabitById(habitId: string): Promise<Habit> {
+    const habit: Habit | null = null;
+    try {
+      const response = await sqliteDb.executeSql(
+        `SELECT * FROM ${this.tableName} WHERE id = ?`,
+        [habitId],
+      );
+      return response[0].rows.item(0);
+    } catch (error) {
+      console.log('ERROR: ', habit);
+      throw new Error(`Failed to get habit with id ${habitId}:  ${error}`);
+    }
+  }
+
+  async create(habit: HabitCreateRequest): Promise<null> {
     try {
       await sqliteDb.executeSql(
         `INSERT INTO ${this.tableName}(name, created_at, date, init_hour, end_hour, repeatsEvery, repeatsEvery_unit, repeatsNum, description) VALUES (?,current_timestamp, ?, ?, ?, ?, ?, ?, ?)`,
@@ -51,6 +68,40 @@ export class HabitsRepository implements HabitsInterface {
     } catch (error) {
       console.log(`Error inserting the habit: ${JSON.stringify(error)}`);
       throw new Error(`Error inserting the habit: ${error}`);
+    }
+  }
+
+  async update(habit: HabitUpdateRequest): Promise<null> {
+    try {
+      await sqliteDb.executeSql(
+        `UPDATE ${this.tableName}
+          SET name = ?,
+              date = ?,
+              init_hour = ?,
+              end_hour = ?, 
+              repeatsEvery = ?,
+              repeatsEvery_unit = ?,
+              repeatsNum = ?,
+              description = ?
+          WHERE
+              id = ?`,
+        [
+          habit.name,
+          habit.date,
+          habit.init_hour,
+          habit.end_hour,
+          habit.repeatsEvery,
+          habit.repeatsEvery_unit,
+          habit.repeatsNum,
+          habit.description,
+          habit.id,
+        ],
+      );
+      console.log(`Habit ${habit} updated sucessfully`);
+      return null;
+    } catch (error) {
+      console.log(`Error updating the habit: ${JSON.stringify(error)}`);
+      throw new Error(`Error updating the habit: ${error}`);
     }
   }
 

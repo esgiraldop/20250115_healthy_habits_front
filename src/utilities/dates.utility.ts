@@ -15,3 +15,15 @@ export const getISODateString = (date: Date): string => {
 
   return `${year}-${month}-${day}`;
 };
+
+export const militaryTimeStringToDate = (timeString: string): Date => {
+  const [hours, minutes] = timeString.split(':');
+
+  const date = new Date();
+  date.setHours(parseInt(hours, 10));
+  date.setMinutes(parseInt(minutes, 10));
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+
+  return date;
+};

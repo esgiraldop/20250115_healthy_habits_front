@@ -3,6 +3,7 @@ import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 
 import {HabitsController} from '../../../core/infrastructure/controllers/habits.controller';
 import {freqUnitsCategories, IHabit} from '../../interfaces/habit.interface';
+import {HabitsListScreenProp} from '../../screens/habits-list.screen';
 import {buttonStyles} from '../../styles/buttons.styles';
 import {containersStyles} from '../../styles/containers.styles';
 import {textStyles} from '../../styles/texts.styles';
@@ -15,12 +16,14 @@ interface IHabitDetailsButton {
   habitData: IHabit;
   isHabitDeleting: boolean | null;
   setIsHabitDeleting: (isHabitDeleting: boolean | null) => void;
+  HabitsListNavigation: HabitsListScreenProp;
 }
 
 export const HabitDetailsButton: React.FC<IHabitDetailsButton> = ({
   habitData,
   isHabitDeleting,
   setIsHabitDeleting,
+  HabitsListNavigation,
 }) => {
   const handleHabitDelete = () => {
     async function deleteHabit() {
@@ -53,7 +56,10 @@ export const HabitDetailsButton: React.FC<IHabitDetailsButton> = ({
         style={[
           containersStyles.buttonContainer,
           containersStyles.horizontalAlign,
-        ]}>
+        ]}
+        onPress={() =>
+          HabitsListNavigation.navigate('EditHabit', {habitId: habitData.id})
+        }>
         <Text style={textStyles.title}>{habitData.name}</Text>
         <View style={containersStyles.verticalAlign}>
           <View style={containersStyles.horizontalLeftAlign}>
