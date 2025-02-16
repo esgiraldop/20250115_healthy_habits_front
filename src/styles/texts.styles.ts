@@ -18,4 +18,17 @@ export const textStyles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
+  TextAlign: {
+    textAlign: 'center',
+  },
+  CenteredText: {
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  },
+  verticallyCenteredText: {
+    textAlignVertical: 'center',
+  },
+  horizontallyCenteredText: {
+    textAlign: 'center',
+  },
 });

@@ -79,7 +79,14 @@ export const EditHabitScreen = () => {
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={habitSchema}>
+            {/* TODO: Try to make these validations work */}
             {formikProps => {
+              console.log(
+                'formikProps.values.init_hour: ',
+                militaryTimeStringToDate(
+                  formikProps.values.init_hour,
+                ).getHours(),
+              );
               return (
                 <>
                   <Text>name</Text>
@@ -100,6 +107,7 @@ export const EditHabitScreen = () => {
                     mode={'date'}
                     show={showDate}
                     date={new Date(formikProps.initialValues.date) || date}
+                    minimumDate={new Date()}
                     onChange={(_, selectedDate) => {
                       setDate(selectedDate || new Date(initialValues.date));
                       formikProps.setFieldValue(
@@ -135,6 +143,11 @@ export const EditHabitScreen = () => {
                     show={showInitHour}
                     date={
                       new Date(formikProps.initialValues.init_hour) || initHour
+                    }
+                    maximumDate={
+                      formikProps.values.end_hour
+                        ? militaryTimeStringToDate(formikProps.values.end_hour)
+                        : undefined
                     }
                     onChange={(_, selectedHour) => {
                       setInitHour(
@@ -175,6 +188,11 @@ export const EditHabitScreen = () => {
                     show={showEndHour}
                     date={
                       new Date(formikProps.initialValues.end_hour) || endHour
+                    }
+                    minimumDate={
+                      formikProps.values.init_hour
+                        ? militaryTimeStringToDate(formikProps.values.init_hour)
+                        : undefined
                     }
                     onChange={(_, selectedHour) => {
                       setEndHour(

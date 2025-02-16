@@ -1,5 +1,5 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View} from 'react-native';
 
 import {DateTimePickerEvent, Mode} from '../../screens/create-habit.screen';
@@ -9,6 +9,8 @@ interface IMyDateTimePicker {
   show: boolean;
   date: Date;
   onChange: (event: DateTimePickerEvent, selectedDate?: Date) => void;
+  minimumDate?: Date | undefined;
+  maximumDate?: Date | undefined;
 }
 
 export const MyDateTimePicker: React.FC<IMyDateTimePicker> = ({
@@ -16,7 +18,17 @@ export const MyDateTimePicker: React.FC<IMyDateTimePicker> = ({
   show,
   date,
   onChange,
+  minimumDate,
+  maximumDate,
 }: IMyDateTimePicker) => {
+  useEffect(() => {
+    console.log('\nminimumDate: ', minimumDate);
+  }, [date, minimumDate]);
+
+  // useEffect(() => {
+  //   console.log('\nmaximumDate: ', maximumDate);
+  // }, [date, maximumDate]);
+
   return (
     <View>
       {show && (
@@ -27,7 +39,8 @@ export const MyDateTimePicker: React.FC<IMyDateTimePicker> = ({
           is24Hour={true}
           onChange={onChange}
           display="default"
-          minimumDate={new Date()}
+          minimumDate={minimumDate}
+          maximumDate={maximumDate}
         />
       )}
     </View>

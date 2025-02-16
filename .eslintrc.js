@@ -18,7 +18,11 @@ module.exports = {
     //Docs --> https://eslint.org/docs/latest/rules/
     'import/no-commonjs': 'off',
     'formik/no-missing-name': 'off',
-    quotes: ['error', 'single'],
+    quotes: [
+      'error',
+      'single',
+      {avoidEscape: true, allowTemplateLiterals: true},
+    ],
     'no-console': 'off',
     'no-unused-vars': 'error',
     'prettier/prettier': 'error',

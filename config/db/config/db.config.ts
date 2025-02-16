@@ -5,13 +5,26 @@ import {
   SQLiteDatabase,
 } from 'react-native-sqlite-storage';
 
-import {createHabitsTable} from '../models/habits.model';
+import {
+  createHabitsComplianceTable,
+  createHabitsTable,
+  printDatabaseTables,
+} from '../models/habits.model';
 
 enablePromise(true);
 
-const sucessDb = () => {
-  console.log('Database opened sucessfully');
-  // () => sqliteDb.transaction(tx => createTable(tx));
+const sucessDb = async () => {
+  console.log('Database connection opened');
+  sqliteDb.transaction(
+    async tx => {
+      console.log('Creating habits table...');
+      createHabitsTable(tx);
+      console.log('Creating habits compliance table...');
+      createHabitsComplianceTable(tx);
+    },
+    error => console.log('Error with transaction: ', error),
+    undefined,
+  );
 };
 
 const errorDb = (err: SQLError) => {
@@ -31,9 +44,13 @@ export const initializeDatabase = async () => {
   try {
     sqliteDb = await getDBConnection();
 
-    await createHabitsTable(sqliteDb);
+    await printDatabaseTables(sqliteDb);
   } catch (error) {
-    console.log(`Error during database initialization: ${error}`);
-    throw new Error(`Error during database initialization: ${error}`);
+    console.log(
+      `Error during database initialization: ${JSON.stringify(error)}`,
+    );
+    throw new Error(
+      `Error during database initialization: ${JSON.stringify(error)}`,
+    );
   }
 };
